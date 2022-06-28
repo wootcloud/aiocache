@@ -356,8 +356,8 @@ class multi_cached:
         try:
             values = await self.cache.multi_get(keys)
             return values
-        except Exception:
-            logger.exception("Couldn't retrieve %s, unexpected error", keys)
+        except Exception as ex:
+            logger.exception("Couldn't retrieve %s, unexpected error: %s", keys, ex)
             return [None] * len(keys)
 
     async def set_in_cache(self, result, fn, fn_args, fn_kwargs):
@@ -366,5 +366,5 @@ class multi_cached:
                 [(self.key_builder(k, fn, *fn_args, **fn_kwargs), v) for k, v in result.items()],
                 ttl=self.ttl,
             )
-        except Exception:
-            logger.exception("Couldn't set %s, unexpected error", result)
+        except Exception as ex:
+            logger.exception("Couldn't set %s, unexpected error: %&s", result, ex)

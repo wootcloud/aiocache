@@ -137,13 +137,15 @@ class cached:
             value = await self.cache.get(key)
             return value
         except Exception as ex:
-            logger.exception("Couldn't retrieve %s, unexpected error: %s", key, ex)
+            logger.exception("Couldn't retrieve %s, unexpected error: [%s]", key, ex)
+
 
     async def set_in_cache(self, key, value):
         try:
             await self.cache.set(key, value, ttl=self.ttl)
         except Exception as ex:
-            logger.exception("Couldn't set %s in key %s, unexpected error: %s", value, key, ex)
+            logger.exception("Couldn't set %s in key %s, unexpected error: [%s]", value, key, ex)
+
 
 
 class cached_stampede(cached):
@@ -357,7 +359,7 @@ class multi_cached:
             values = await self.cache.multi_get(keys)
             return values
         except Exception as ex:
-            logger.exception("Couldn't retrieve %s, unexpected error: %s", keys, ex)
+            logger.exception("Couldn't retrieve %s, unexpected error: [%s]", keys, ex)
             return [None] * len(keys)
 
     async def set_in_cache(self, result, fn, fn_args, fn_kwargs):
@@ -367,4 +369,5 @@ class multi_cached:
                 ttl=self.ttl,
             )
         except Exception as ex:
-            logger.exception("Couldn't set %s, unexpected error: %&s", result, ex)
+            logger.exception("Couldn't set %s, unexpected error: %s", result, ex)
+

@@ -33,8 +33,8 @@ class CachedOverride(cached):
                     headers=value.headers,
                 )
             return value
-        except Exception:
-            logging.exception("Couldn't retrieve %s, unexpected error", key)
+        except Exception as ex:
+            logging.exception("Couldn't retrieve %s, unexpected error: [%s]", key, ex)
 
 
 @CachedOverride(key="route_key", serializer=JsonSerializer())
